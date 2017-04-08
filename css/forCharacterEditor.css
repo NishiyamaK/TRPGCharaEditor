@@ -1,23 +1,54 @@
-/*Tableの書式*/
-th {
+hr {
+    height: 2px;
+    background-color:#F2F2F2;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 75%;
+}
+
+
+/*container*/
+.container {
+  padding:20px;
+}
+
+/*table*/
+table thead {
   text-align: center;
 }
-td{
-  text-align: center;
-  vertical-align: middle;
-}
-.abiname {
+
+/*table1*/
+#table1 tr td:nth-child(1){
   text-align: left;
-  vertical-align: middle;
 }
-td button {
-  min-width:70px;
-}
-td input[type="text"],input[type="number"] {
+#table1 td:nth-child(2) input{
+  text-align: right;
   width:50px;
   border:none;
-  text-align: right;
 }
-.paneScrollBtn {
-  width: 90%;
+#table1 tr td:nth-child(3) button{
+  min-width:70px;
+}
+
+/*table2*/
+#table2 tr td:nth-child(1){
+  text-align: left;
+}
+#table2 td:nth-child(2) input{
+  text-align: right;
+  width:50px;
+  border:none;
+}
+
+/*table3*/
+#table3 td input{
+  text-align: right;
+  width:50px;
+  border:none;
+}
+/*table4*/
+#table4 td input{
+  text-align: right;
+  width:50px;
+  border:none;
 }

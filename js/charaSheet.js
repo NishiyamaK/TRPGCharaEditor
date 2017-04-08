@@ -4,151 +4,121 @@
         Step1
 *********************/
 
-/** グローバル変数 **/
-// キャラステータスに関する変数
-var strValue,conValue,powValue,dexValue,appValue,sizValue,intValue,eduValue,
-    sanValue, luckValue, ideaValue,knldValue,hpValue,mpValue,dbValue,jobpValue,
-    hobpValue;
+$('#table1 button').click(function(){
+  var target = $(this).parents('tr').find('input[type="text"]'); //能力値の要素
+  $(target).val(diceBtnAction($(this))).change(); //jQueryはchangeイベントを付与する必要がある！
+  // ボタンの押された回数+1
+  bdge = $(this).next();
+  bdge.text(countBtnPushedTimes(bdge));
+});
 
-function saikoro(n, diceSize) {
-  /* 最大値diceSizeのサイコロをn回振った合計値を返す */
+$('#random_btn').click(function(){
+  $('#table1 td:nth-child(3) button').each(function(){
+    var target = $(this).parents('tr').find('input[type="text"]'); //能力値の要素
+    $(target).val(diceBtnAction($(this))).change();
+  })
+  $('#step1 #table1 span[class="badge"]').text("");
+  //ボタンの押された回数+1
+  bdge = $(this).children('span');
+  bdge.text(countBtnPushedTimes(bdge));
 
+});
+
+$('#reset_btn_1').click(function(){
+  $('#table1 input').val("0").change();
+  $('#table2 input').val("0").change();
+  $('#step1 span[class="badge"]').text("");
+});
+
+$(function(){
+  /*table1が変更された時にtable2を更新する*/
+  $('#table1 td:nth-child(2) input[type="text"]').each(function(){
+    $(this).change(function(){
+      /*table2更新*/
+      var san = $('#table2 td:contains("SAN値")').next().children('input'),
+          lack = $('#table2 td:contains("幸運")').next().children('input'),
+          idea = $('#table2 td:contains("アイデア")').next().children('input'),
+          knldge = $('#table2 td:contains("知識")').next().children('input'),
+          hp = $('#table2 td:contains("耐久力")').next().children('input'),
+          mp = $('#table2 td:contains("マジックP")').next().children('input'),
+          jp = $('#table2 td:contains("職業技能P")').next().children('input'),
+          hbp = $('#table2 td:contains("趣味技能P")').next().children('input'),
+          db = $('#table2 td:contains("ダメージボーナス(DB)")').next().children('input');
+      var pow = Number($('#table1 td:contains("POW")').next().children('input').val()),
+          int = Number($('#table1 td:contains("INT")').next().children('input').val()),
+          edu = Number($('#table1 td:contains("EDU")').next().children('input').val()),
+          con = Number($('#table1 td:contains("CON")').next().children('input').val()),
+          siz = Number($('#table1 td:contains("SIZ")').next().children('input').val()),
+          str = Number($('#table1 td:contains("STR")').next().children('input').val());
+      san.val(pow * 5);
+      lack.val(pow * 5);
+      idea.val(int * 5);
+      knldge.val(edu * 5);
+      hp.val(Math.round((con + siz) / 2));
+      mp.val(pow);
+      jp.val(edu * 20).change();
+      hbp.val(int * 10).change();
+      db.val("0");
+    });
+  });
+}());
+
+function diceBtnAction(obj){
+  /*
+  table1で押されたボタンに対応したダイス値と出力する要素を返す
+  */
+  var diceInfo = obj.text().split('+') //nDmを取得
+  var diceValue = saikoro(diceInfo[0].split('D')); //ダイスを振る
+
+  var addDiceValue = 0; //2D6+1 などの+1の部分を取得する
+  if(diceInfo.length==2){
+    addDiceValue = Number(diceInfo[1]);
+  }
+  return diceValue + addDiceValue;
+};
+
+function saikoro(diceInfo) {
+  /* 最大値diceSizeのサイコロをn回振った合計値を返す
+    diceinfo(array) = [n, diceSize]
+  */
+  var n = diceInfo[0], diceSize = diceInfo[1];
   var SumValue = 0;
   for(var i=0; i<n; i++){
     SumValue += Math.floor(Math.random() * diceSize) + 1;;
   }
-  //console.log("Saikoro = DiceSize:" + n + "D" + diceSize + " = " + SumValue);
   return SumValue;
-}
+};
 
-(function() {
-    'use strict';
-    /* 基礎能力,SAN値決定をランダム決定し、Formに入力する */
-    var strValue = document.getElementById('str'),
-        conValue = document.getElementById('con'),
-        powValue = document.getElementById('pow'),
-        dexValue = document.getElementById('dex'),
-        appValue = document.getElementById('app'),
-        sizValue = document.getElementById('siz'),
-        intValue = document.getElementById('int'),
-        eduValue = document.getElementById('edu'),
-
-        sanValue = document.getElementById('san'),
-        luckValue = document.getElementById('luck'),
-        ideaValue = document.getElementById('idea'),
-        knldValue = document.getElementById('knowledge'),
-        hpValue = document.getElementById('hp'),
-        mpValue = document.getElementById('mp'),
-        dbValue = document.getElementById('db'),
-        jobpValue = document.getElementById('jobp'),
-        hobpValue = document.getElementById('hobp'),
-        push_cnt = [0,0,0,0,0,0,0,0,0]; /*ボタンの押された回数を記録する*/
-
-    strValue.addEventListener('click', function() {this.select();});
-    conValue.addEventListener('click', function() {this.select();});
-    powValue.addEventListener('click', function() {this.select();});
-    dexValue.addEventListener('click', function() {this.select();});
-    appValue.addEventListener('click', function() {this.select();});
-    sizValue.addEventListener('click', function() {this.select();});
-    intValue.addEventListener('click', function() {this.select();});
-    eduValue.addEventListener('click', function() {this.select();});
-    sanValue.addEventListener('click', function() {this.select();});
-    luckValue.addEventListener('click', function() {this.select();});
-    ideaValue.addEventListener('click', function() {this.select();});
-    knldValue.addEventListener('click', function() {this.select();});
-    hpValue.addEventListener('click', function() {this.select();});
-    mpValue.addEventListener('click', function() {this.select();});
-    jobpValue.addEventListener('click', function() {this.select();});
-    hobpValue.addEventListener('click', function() {this.select();});
-    dbValue.addEventListener('click', function() {this.select();});
-
-    /*ボタン処理*/
-    rdm_btn.addEventListener('click', function() {
-      strValue.value = saikoro(3,6);
-      conValue.value = saikoro(3,6);
-      powValue.value = saikoro(3,6);
-      dexValue.value = saikoro(3,6);
-      appValue.value = saikoro(3,6);
-      sizValue.value = saikoro(2,6) + 6;
-      intValue.value = saikoro(2,6) + 6;
-      eduValue.value = saikoro(3,6) + 3;
-      push_cnt[0] += 1;
-      cnt_all.innerHTML = push_cnt[0] + "回";
-
-      sanValue.value = powValue.value * 5;
-      luckValue.value = powValue.value * 5;
-      ideaValue.value = intValue.value * 5;
-      knldValue.value = eduValue.value * 5;
-      hpValue.value = Math.round((Number(conValue.value) + Number(sizValue.value))/2);
-      mpValue.value = powValue.value;
-      jobpValue.value = eduValue.value * 20;
-      hobpValue.value = intValue.value * 10;
-      dbValue.value = "N/A";
-
-      //職業P,趣味Pの総量と残量を更新
-      $('#skillJobP_cp').val($('#jobp').val());
-      $('#skillHobP_cp').val($('#hobp').val());
-      $('#skillJobPSum').val($('#jobp').val());
-      $('#skillHobPSum').val($('#hobp').val());
-    })
-    str_btn.addEventListener('click', function() {
-      strValue.value = saikoro(3,6);
-      dbValue.value = "N/A";
-      push_cnt[1] += 1;
-      cnt_str.innerHTML = push_cnt[1] + "回";
-    });
-    con_btn.addEventListener('click', function() {
-      conValue.value = saikoro(3,6);
-      hpValue.value = Math.round((Number(conValue.value) + Number(sizValue.value))/2);
-      push_cnt[2] += 1;
-      cnt_con.innerHTML = push_cnt[2] + "回";
-    });
-    pow_btn.addEventListener('click', function() {
-      powValue.value = saikoro(3,6);
-      sanValue.value = powValue.value * 5;
-      luckValue.value = powValue.value * 5;
-      mpValue.value = powValue.value;
-      push_cnt[3] += 1;
-      cnt_pow.innerHTML = push_cnt[3] + "回";
-    });
-    dex_btn.addEventListener('click', function() {
-      dexValue.value = saikoro(3,6);
-      push_cnt[4] += 1;
-      cnt_dex.innerHTML = push_cnt[4] + "回";
-    });
-    app_btn.addEventListener('click', function() {
-      appValue.value = saikoro(3,6);
-      push_cnt[5] += 1;
-      cnt_app.innerHTML = push_cnt[5] + "回";
-    });
-    siz_btn.addEventListener('click', function() {
-      sizValue.value = saikoro(2,6) + 6;
-      hpValue.value = Math.round((Number(conValue.value) + Number(sizValue.value))/2);
-      dbValue.value = "N/A";
-      push_cnt[6] += 1;
-      cnt_siz.innerHTML = push_cnt[6] + "回";
-    });
-    int_btn.addEventListener('click', function() {
-      intValue.value = saikoro(2,6) + 6;
-      ideaValue.value = intValue.value * 5;
-      hobpValue.value = intValue.value * 10;
-      push_cnt[7] += 1;
-      cnt_int.innerHTML = push_cnt[7] + "回";
-      $('#skillHobP_cp').val($('#hobp').val());
-    });
-    edu_btn.addEventListener('click', function() {
-      eduValue.value = saikoro(3,6) + 3;
-      knldValue.value = eduValue.value * 5;
-      jobpValue.value = eduValue.value * 20;
-      push_cnt[8] += 1;
-      cnt_edu.innerHTML = push_cnt[8] + "回";
-      $('#skillJobP_cp').val($('#jobp').val());
-    });
-  })();
+function countBtnPushedTimes(obj){
+  /*obj.text()の回数を+1して返す*/
+  times = Number(obj.text());
+  console.log(times);
+  if(times > 0){
+    return times + 1;
+  }else{
+    return 1;
+  };
+};
 
 /********************
         Step2
 *********************/
+$(function(){
+  /*
+  職業P, 趣味Pの最大値が変更された時に修正する
+  */
+  $('#table2 td:contains("趣味技能P")').next().children('input')
+  .change(function(){
+    //趣味Pの合計値
+    $('#hobp, #hobp_now').val($(this).val());
+  });
+  $('#table2 td:contains("職業技能P")').next().children('input')
+  .change(function(){
+    //職業Pの合計値
+    $('#jobp, #jobp_now').val($(this).val());
+  });
+});
+
 (function(){
   /*
     スキル一覧を生成する
@@ -222,137 +192,76 @@ function saikoro(n, diceSize) {
 
     //スキルごとにid=skill${スキル番号}
     //初期値, ジョブP, 趣味P, 合計値にそれぞれ class=skillInit, skillJobP, skillHobP, skillSumP
-    $('#skillsTable').append(
+    $('#table4 tbody').append(
       `<tr style="background-color:${skillList[i][2]}">` +
         `<td>${i}</td>` + //スキル番号
         `<td>${skillList[i][0]}</td>` + //スキル名
-        `<td><input type="text" class="skill${i} skillInit" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]}\" readonly="readonly"></td>` +  // 初期値
-        `<td><input type="number" class="skill${i} skillJobP" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //ジョブP
-        `<td><input type="number" class="skill${i} skillHobP" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //趣味P
-        `<td><input type="number" class="skill${i} skillSumP" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]};\" readonly="readonly"></td>` + // 合計
-        "</style></tr>"
+        `<td><input type="text" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]}\" readonly="readonly"></td>` +  // 初期値
+        `<td class="job_col"><input type="number" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //ジョブP
+        `<td class="hob_col"><input type="number" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //趣味P
+        `<td><input type="number" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]};\" readonly="readonly"></td>` + // 合計
+      `</tr>`
     );
-  }
-  //console.log(skillListHTML);
+  };
 })();
 
-/*
-各スキルの合計値計算用関数
-*/
-$(function() {
+$(function(){
   /*
-  スキルの職業P, 趣味Pが変更された時に合計値を更新
+  職業P, 趣味Pいずれかが変更された場合に
+  スキルの合計値
+  未割当ポイント　を更新する.
   */
-  $('.skillJobP, .skillHobP').each(function(){
+  $('.job_col, .hob_col').each(function(){
     $(this).change(function(){
-
-      var skillType = $(this).attr('class').split(" ")[1]; //職業P,趣味Pどちらなのかを取得
-      var skillNum = $(this).attr('class').split(" ")[0]; //スキル番号
-      var skillInit = $(`.${skillNum}.skillInit`).val(); //スキルの初期値
-      var otherTypeValue; //趣味Pなら職業P,職業Pなら趣味Pの値を取得
-      var capa, maxP; //職業P(あるいは趣味P)の残り容量/最大値
-      if(skillType=="skillJobP"){
-        capa = $('#skillJobPSum');
-        maxP = $("#skillJobP_cp").val();
-        otherTypeValue=$(`.${skillNum}.skillHobP`).val()
-      }else{
-        capa = $('#skillHobPSum');
-        maxP = $("#skillHobP_cp").val();
-        otherTypeValue=$(`.${skillNum}.skillJobP`).val();
-      };
-
-      //0以下であれば0に修正
-      if($(this).val() < 0){$(this).val(0)};
-
-      //残り容量を超えている場合入力値を残り容量に置き換え
-      console.log("容量:",capa.val(),"入力値:",$(this).val());
-      if(capa.val() < Number($(this).val())){
-        $(this).val(capa.val());
-        console.log("容量を超過したため入力値を修正:",$(this).val());
-      };
-
-      //合計値が99を超える場合は99になるように調整
-      var limitP = 99-skillInit-otherTypeValue; //現在入力できる最大値(最大99)
-      console.log("現在入力できる最大値:",limitP,"入力P:",$(this).val());
-      if(limitP < $(this).val()){
-        $(this).val(limitP);
-        console.log("最大値を超過したため入力値を修正:",$(this).val());
-      };
-
-      //スキルの合計値を計算
-      $(`.${skillNum}.skillSumP`).val(sumSkillPoint(skillNum));
-      //未割当ポイントを更新
-      capa.val(maxP - sumSkillTypePoint(skillType));
-      console.log(capa.val(), maxP, sumSkillTypePoint(skillType));
+      var inputObj = $(this).children('input');
+      // 入力値をチェック
+      inValue = checkInputPoint(inputObj.val(), 0, 0, 0);
+      inputObj.val(inValue);
+      // スキルの合計値を修正
+      modifySkillTotal($(this));
+      // 未割当ポイントを修正
+      modifyUnassignedPoint();
     });
   });
 });
 
-function sumSkillTypePoint(className){
+function modifySkillTotal(obj){
   /*
-  className=skillJobP or skillHobP
-  どちらかの合計値を計算して返す
+  スキルの合計値を修正する.
   */
-  var sum = 0;
-  $(`.${className}`).each(function(){
-    sum+=Number($(this).val());
+  var col = obj.parent('tr');
+  var skIni = col.find('td:nth-child(3)').children('input').val();
+  var skJobP = col.find('td:nth-child(4)').children('input').val();
+  var skHobP = col.find('td:nth-child(5)').children('input').val();
+  var total = Number(skIni) + Number(skJobP) + Number(skHobP);
+  col.find('td:last').children('input').val(total);
+};
+
+function modifyUnassignedPoint(){
+  /*
+  未割当ポイントを修正する.
+  */
+  var job_sum=0, hob_sum=0;
+  $('.job_col').each(function(){
+    job_sum += Number($(this).children('input').val());
+    console.log(job_sum);
   });
-  return sum;
+  $('.hob_col').each(function(){
+    hob_sum += Number($(this).children('input').val());
+    console.log(hob_sum);
+  });
+  $('#jobp_now').val($('#jobp').val() - job_sum);
+  $('#hobp_now').val($('#hobp').val() - hob_sum);
 };
 
-function sumSkillPoint(className){
+function checkInputPoint(p, p_now, capa, capa_now){
   /*
-  classNameをもつクラスの合計値を計算して返す
+  入力値が条件に当てはまらない場合は修正して返す
   */
-  var initValue = Number($(`.${className}.skillInit`).val()),
-      jobValue = Number($(`.${className}.skillJobP`).val()),
-      hobValue = Number($(`.${className}.skillHobP`).val());
-
-  return Number(initValue + jobValue + hobValue);
+  if(p < 0){
+    p = 0;
+  }
+  // 割当ポイントの合計 <= ポイント総量
+  // スキルの最大値は99
+  return p;
 };
-
-(function () {
-  /*
-    Table自動ソート
-  */
-  function sort(tbody, compareFunction) {
-    var rows = tbody.children;
-    if(!rows || !rows[0] || rows.length == 1) return;
-    var size = rows.length;
-    var arr = [];
-    for(var i = 0; i < size; i++) arr.push(rows[i]);
-    arr.sort(compareFunction);
-    for(var i = size - 1; i > 0; i--) tbody.insertBefore(arr[i-1], arr[i]);
-  }
-  function numConvert(s) {
-    return s == Number(s) ? Number(s) : s;
-  }
-  function asc(idx) {
-    return function(a, b) {
-      var a_ = numConvert(a.children[idx].innerText);
-      var b_ = numConvert(b.children[idx].innerText);
-      return a_ > b_ ? 1 : -1;
-    };
-  }
-  function desc(idx) {
-    return function(a, b) {
-      var a_ = numConvert(a.children[idx].innerText);
-      var b_ = numConvert(b.children[idx].innerText);
-      return a_ < b_ ? 1 : -1;
-    };
-  }
-  function sortEvent(tbody, idx) {
-    var mode = true;
-    return function(e) {
-      if(mode) sort(tbody,  asc(idx));
-      else     sort(tbody, desc(idx));
-      mode = !mode;
-    };
-  }
-  var ts = document.getElementsByTagName('table');
-  for(var i = ts.length; i--; ) {
-    var ths = ts[i].tHead.getElementsByTagName('th');
-    for(var j = ths.length; j--; )
-      ths[j].addEventListener("click", sortEvent(ts[i].tBodies[0], j));
-  }
-})();

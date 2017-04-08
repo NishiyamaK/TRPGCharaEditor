@@ -7,13 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TRPGキャラ作成ページ(練習用)</title>
 
-    <!-- Bootstrap, bootstrap-material-design -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!--<link href="bootstrap-material-design/dist/css/bootstrap-material-design.css" rel="stylesheet" type="text/css">
-    <link href="bootstrap-material-design/dist/css/ripples.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="css/forCharacterEditor.css"></style>
   </head>
@@ -27,113 +21,147 @@
 
       <ul class="nav nav-tabs" style="margin-bottom:15px">
         <li class="active"><a href="#chara_edit" data-toggle="tab">CharacterEditor</a></li>
-        <li><a href="#etc" data-toggle="tab">etc</a></li>
+        <li><a href="#chara_list" data-toggle="tab">CharactorList</a></li>
       </ul>
 
       <div class="tab-content">
         <!--キャラクターエディター-->
-        <div class="tab-pane active" id="chara_edit" >
 
-          <!--
-          1. 基本ステータス設定画面
-          -->
-          <div class="col-sm-12">
-            <div class="panel panel-info">
-              <div class="panel-heading"><h2>Step1 基礎ステータス設定</h2></div>
-              <div class="panel-body">
-                <ul>
-                  <li>全てをランダム選択ボタンで全てのステータスが自動で割り振られます。</li>
-                  <li>基礎能力のダイスを個別で振りたい場合は、各能力横のダイスボタンを押してください。</li>
-                  <li>直接値を変更したい場合は、変更したい能力値をクリックし直接半角で値を入力してください。</li>
-                </ul>
+        <!--
+        ページリスト1
+        -->
+        <div class="tab-pane active" id="chara_edit">
+
+            <div id="step1">
+            <!--
+            1. 基本ステータス設定画面
+            -->
+            <div class="col-sm-12">
+              <div class="panel panel-info">
+                <div class="panel-heading"><h2>Step1 基礎ステータス設定</h2></div>
+                <div class="panel-body">
+                  <ul>
+                    <li>全てをランダム選択ボタンで全てのステータスが自動で割り振られます。</li>
+                    <li>基礎能力のダイスを個別で振りたい場合は、各能力横のダイスボタンを押してください。</li>
+                    <li>直接値を変更したい場合は、変更したい能力値をクリックし直接半角で値を入力してください。</li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="container col-sm-6" style="padding:20px">
-            <h4><i class="glyphicon glyphicon-user"><strong> 基礎能力</strong></i></h4>
+            <div class="container col-sm-6">
+              <h4><i class="glyphicon glyphicon-user"><strong> 基礎能力</strong></i></h4>
 
-            <table class="table table-striped">
-              <thead>
-                <th >能力名</th><th>能力値</th><th style="text-align: center">ダイス</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="abiname">STR</td>
-                  <td><input type="text" id="str" value="-"></td>
-                  <td id="str_btn"><button class="btn btn-info">3D6 <span class="badge" id="cnt_str"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">CON</td>
-                  <td><input type="text" id="con" value="-"></td>
-                  <td id="con_btn"><button class="btn btn-info">3D6 <span class="badge" id="cnt_con"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">POW</td>
-                  <td><input type="text" id="pow" value="-"></td>
-                  <td id="pow_btn"><button class="btn btn-info">3D6 <span class="badge" id="cnt_pow"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">DEX</td>
-                  <td><input type="text" id="dex" value="-"></td>
-                  <td id="dex_btn"><button class="btn btn-info">3D6 <span class="badge" id="cnt_dex"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">APP</td>
-                  <td><input type="text" id="app" value="-"></td>
-                  <td id="app_btn"><button class="btn btn-info">3D6 <span class="badge" id="cnt_app"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">SIZ</td>
-                  <td><input type="text" id="siz" value="-"></td>
-                  <td id="siz_btn"><button class="btn btn-info">2D6+6 <span class="badge" id="cnt_siz"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">INT</td>
-                  <td><input type="text" id="int" value="-"></td>
-                  <td id="int_btn"><button class="btn btn-info">2D6+6 <span class="badge" id="cnt_int"></button></button></td>
-                </tr>
-                <tr>
-                  <td class="abiname">EDU</td>
-                  <td><input type="text" id="edu" value="-"></td>
-                  <td id="edu_btn"><button class="btn btn-info">3D6+3 <span class="badge" id="cnt_edu"></button></button></td>
-                </tr>
-              </tbody>
-            </table>
+              <table class="table" id="table1">
+                <thead>
+                  <th>能力名</th><th>能力値</th><th>ダイス</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>STR</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>CON</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>POW</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>DEX</td>
+                    <td><input id="value" type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>APP</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>SIZ</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">2D6+6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>INT</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">2D6+6</button> <span class="badge"></span></td>
+                  </tr>
+                  <tr>
+                    <td>EDU</td>
+                    <td><input type="text" value="-"></td>
+                    <td><button class="btn btn-info">3D6+3</button> <span class="badge"></span></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-          <div class="container col-sm-6" style="padding:20px">
-            <h4><i class="glyphicon glyphicon-user"><strong> SAN値,その他ポイント</strong></i></h4>
-            <table class="table table-striped">
-              <thead>
-                <th>能力名</th><th>能力値</th>
-              </thead>
-              <tbody>
-                <tr><td class="abiname">SAN値</td><td><input type="text" id="san" value="-"></td></tr>
-                <tr><td class="abiname">幸運</td><td><input type="text" id="luck" value="-"></td></tr>
-                <tr><td class="abiname">アイデア</td><td><input type="text" id="idea" value="-"></td></tr>
-                <tr><td class="abiname">知識</td><td><input type="text" id="knowledge" value="-"></td></tr>
-                <tr><td class="abiname">耐久力</td><td><input type="text" id="hp" value="-"></td></tr>
-                <tr><td class="abiname">マジックP</td><td><input type="text" id="mp" value="-"></td></tr>
-                <tr><td class="abiname">職業技能P</td><td><input type="text" id="jobp" value="-"></td></tr>
-                <tr><td class="abiname">趣味技能P</td><td><input type="text" id="hobp" value="-"></td></tr>
-                <tr><td class="abiname">ダメージボーナス(DB)</td><td><input type="text" id="db" value="-"></td></tr>
-              </tbody>
-            </table>
-          </div>
+            <div class="container col-sm-6">
+              <h4><i class="glyphicon glyphicon-user"><strong> SAN値,その他ポイント</strong></i></h4>
+              <table class="table" id="table2">
+                <thead>
+                  <th>能力名</th><th>能力値</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SAN値</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>幸運</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>アイデア</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>知識</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>耐久力</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>マジックP</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>職業技能P</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>趣味技能P</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                  <tr>
+                    <td>ダメージボーナス(DB)</td>
+                    <td><input type="text" value="-"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <div class="col-sm-7" style="margin-bottom:30px;">
-            <button id="rdm_btn" class="btn btn-primary">全てランダム選択 <span class="badge" id="cnt_all"></button></span>
-          </div>
-          <div class="col-sm-5"></div>
+            <div class="container">
+              <div class="col-sm-7">
+                <button id="random_btn" class="btn btn-primary">全てランダム選択 <span class="badge"></button></span>
+                <button id="reset_btn_1" class="btn btn-warning">リセット <span class="badge"></button></span>
+              </div>
+              <div class="col-sm-5"></div>
+            </div>
 
-          <div class="col-sm-12">
-            <button id="nextTo2" class="paneScrollBtn btn btn-success"><i class="glyphicon glyphicon-menu-down"> 次へ</i></button>
-          </div>
+            <hr class="col-sm-12">
+        </div>
         <!--
         Step2 スキル設定
         -->
-          <div class="col-sm-12" style="margin-top:30px;">
+          <div class="container col-sm-12">
             <div class="panel panel-info">
               <div class="panel-heading"><h2>Step2 スキル設定</h2></div>
               <div class="panel-body">
@@ -148,42 +176,101 @@
             </div>
           </div>
 
-          <div class="col-sm-12" style="margin-top:30px;">
-            <table class="table table-default">
+          <div class="container col-sm-12">
+            <table class="table" id="table3">
               <thead>
                 <th>ポイント名</th><th>ポイント総量(未割当ポイント)</th>
               </thead>
               <tbody>
                 <tr>
                   <td>職業P</td>
-                  <td><input type="text" id="skillJobP_cp" value="0" readonly="readonly">
-                      (<input type="text" id="skillJobPSum" value="0" readonly="readonly">)</td>
+                  <td>
+                    <input type="text" id="jobp" value="0" readonly="readonly">
+                     (<input type="text" id="jobp_now" value="0" readonly="readonly">)
+                  </td>
                 <tr>
                   <td>趣味P</td>
-                  <td><input type="text" id="skillHobP_cp" value="0" readonly="readonly">
-                    (<input type="text" id="skillHobPSum" value="0" readonly="readonly">)</td>
+                  <td>
+                    <input type="text" id="hobp" value="0" readonly="readonly">
+                    (<input type="text" id="hobp_now" value="0" readonly="readonly">)
+                  </td>
                 </tr>
               </tr>
             </table>
           </div>
-          <table class="table table-inverse">
-            <thead>
-              <th>skill番号<i class="glyphicon glyphicon-sort"></i></th>
-              <th>スキル名<i class="glyphicon glyphicon-sort"></i></th>
-              <th>初期値<i class="glyphicon glyphicon-sort"></i></th>
-              <th>職業P<i class="glyphicon glyphicon-sort"></i></th>
-              <th>趣味P<i class="glyphicon glyphicon-sort"></i></th>
-              <th>合計値<i class="glyphicon glyphicon-sort"></i></th>
-            </thead>
-            <tbody id="skillsTable">
-              <!--jsでスキルテーブル更新-->
-            </tbody>
-          </table>
-        <script src="js/charaSheet.js"></script> <!--キャラシート作成用のjs-->
+
+          <div class="col-sm-12">
+            <table  class="table" id="table4">
+              <thead>
+                <th>skill番号</th>
+                <th>スキル名</th>
+                <th>初期値</th>
+                <th>職業P</th>
+                <th>趣味P</th>
+                <th>合計値</th>
+              </thead>
+              <tbody>
+                <!--jsでスキルテーブル更新-->
+              </tbody>
+            </table>
+          </div>
+
+          <!--
+          Step3 キャラクター設定
+          -->
+          <div class="container col-sm-12">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h2>Step3 キャラクター設定</h2>
+              </div>
+              <div class="panel-body">
+                <ul>
+                  <li>キャラクター名,職業,年齢,性別を設定してください。</li>
+                  <li>全て入力が終わった後、『キャラクター作成』ボタンを押してキャラクターを保存してください。</li>
+                  <li>キャラクターはブラウザに保存されます。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="container col-sm-12">
+            <table class="table">
+              <thead>
+                <th>設定項目</th><th>設定値</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>名前</td>
+                  <td><input type="text" class="charaSetting" required></td>
+                </tr>
+                <tr>
+                  <td>職業</td>
+                  <td><input type="text" class="charaSetting" required></td>
+                </tr>
+                <tr>
+                  <td>年齢</td>
+                  <td><input type="number" class="charaSetting" min="0" required></td>
+                </tr>
+                <tr>
+                  <td>性別</td>
+                  <td><input type="text" class="charaSetting" required></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-12" style="text-align:right; margin-bottom:30px;">
+            <button class="btn btn-success">キャラクター作成</button>
+          </div>
+
+          <script src="js/charaSheet.js"></script> <!--キャラシート作成用のjs-->
         </div>
 
-        <div class="tab-pane" id="etc">何か機能追加する</div>
-        <!---->
+        <!--
+        ページリスト2
+        -->
+        <div class="tab-pane" id="chara_list">
+          作成したキャラクターをリストで表示
+        </div>
       </div>
     </div>
 
