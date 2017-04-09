@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TRPGキャラ作成ページ(練習用)</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!--<script src="js/jquery.min.js"></script>-->
+
+    <link rel="stylesheet" href="css/forCharaSheet.css"></style>
+  </head>
+
+  <body>
+    <!-- hedder -->
+    <div id="header" class="container"></div>
+    <!-- hedder -->
+
+    <div class="container" style="padding: 20px 0">
+
+      <!--キャラクターエディター-->
+
+      <!--
+      ページリスト1
+      -->
+      <div class="tab-pane active" id="chara_edit">
+
+        <div id="step1">
+        <!--
+        1. 基本ステータス設定画面
+        -->
+        <div class="col-sm-12">
+          <div class="panel panel-info">
+            <div class="panel-heading"><h2>Step1 基礎ステータス設定</h2></div>
+              <div class="panel-body">
+                <ul>
+                  <li>全てをランダム選択ボタンで全てのステータスが自動で割り振られます。</li>
+                  <li>基礎能力のダイスを個別で振りたい場合は、各能力横のダイスボタンを押してください。</li>
+                  <li>直接値を変更したい場合は、変更したい能力値をクリックし直接半角で値を入力してください。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="container col-sm-6">
+            <h4><i class="glyphicon glyphicon-user"><strong> 基礎能力</strong></i></h4>
+            <table class="table" id="table1">
+              <thead>
+                <th>能力名</th><th>能力値</th><th>ダイス</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>STR</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>CON</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>POW</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>DEX</td>
+                  <td><input id="value" type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>APP</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>SIZ</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">2D6+6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>INT</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">2D6+6</button> <span class="badge"></span></td>
+                </tr>
+                <tr>
+                  <td>EDU</td>
+                  <td><input type="text" value="-"></td>
+                  <td><button class="btn btn-info">3D6+3</button> <span class="badge"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="container col-sm-6 pad20">
+            <h4><i class="glyphicon glyphicon-user"><strong> SAN値,その他ポイント</strong></i></h4>
+            <table class="table" id="table2">
+              <thead>
+                <th>能力名</th><th>能力値</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SAN値</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>幸運</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>アイデア</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>知識</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>耐久力</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>マジックP</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>職業技能P</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>趣味技能P</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+                <tr>
+                  <td>ダメージボーナス(DB)</td>
+                  <td><input type="text" value="-"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="container pad20">
+            <div class="col-sm-7">
+              <button id="random_btn" class="btn btn-primary">全てランダム選択 <span class="badge"></button></span>
+              <button id="reset_btn_1" class="btn btn-warning">リセット <span class="badge"></button></span>
+            </div>
+            <div class="col-sm-5"></div>
+          </div>
+
+          <hr class="col-sm-12">
+      </div>
+      <!--
+      Step2 スキル設定
+      -->
+      <div class="container col-sm-12 pad20">
+        <div class="panel panel-info">
+          <div class="panel-heading"><h2>Step2 スキル設定</h2></div>
+          <div class="panel-body">
+            <ul>
+              <li>ポイント総量と未割当ポイントに注意しながら以下のリストの『職業P』『趣味P』を割り当ててください</li>
+              <li>ポイントを割り振るにはそれぞれのポイントをクリックし、任意の数字を入力してください。</li>
+              <li>入力は <strong>半角数字</strong> で入力してください。</li>
+              <li>各スキルの最大値は99です。超過した場合は自動的に99になるようにポイントが割り振られます。</li>
+              <li>未割当ポイントが0になるとポイントを割り当てることができなくなります。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="container col-sm-12 pad20">
+        <table class="table" id="table3">
+          <thead>
+            <th>ポイント名</th><th>ポイント総量(未割当ポイント)</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>職業P</td>
+              <td>
+                <input type="text" id="jobp" value="0" readonly="readonly">
+                 (<input type="text" id="jobp_now" value="0" readonly="readonly">)
+              </td>
+            </tr>
+            <tr>
+              <td>趣味P</td>
+              <td>
+                <input type="text" id="hobp" value="0" readonly="readonly">
+                (<input type="text" id="hobp_now" value="0" readonly="readonly">)
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="col-sm-12">
+          <table  class="table" id="table4">
+            <thead>
+              <th>skill番号</th>
+              <th>スキル名</th>
+              <th>初期値</th>
+              <th>職業P</th>
+              <th>趣味P</th>
+              <th>合計値</th>
+            </thead>
+            <tbody>
+              <!--jsでスキルテーブル更新-->
+            </tbody>
+          </table>
+        </div>
+
+        <!--
+        Step3 キャラクター設定
+        -->
+        <div class="container col-sm-12 pad20">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h2>Step3 キャラクター設定</h2>
+            </div>
+            <div class="panel-body">
+              <ul>
+                <li>キャラクター名,職業,年齢,性別を設定してください。</li>
+                <li>全て入力が終わった後、『キャラクター作成』ボタンを押してキャラクターを保存してください。</li>
+                <li>キャラクターはブラウザに保存されます。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="container col-sm-12 pad20">
+          <table class="table" id="table5">
+            <thead>
+              <th>設定項目</th><th>設定値</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>名前</td>
+                <td><input type="text" class="charaSetting" required></td>
+              </tr>
+              <tr>
+                <td>職業</td>
+                <td><input type="text" class="charaSetting" required></td>
+              </tr>
+              <tr>
+                <td>年齢</td>
+                <td><input type="number" class="charaSetting" min="0" required></td>
+              </tr>
+              <tr>
+                <td>性別</td>
+                <td><input type="text" class="charaSetting" required></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-12 pad20">
+          <button id="make_chara_btn" class="btn btn-success">キャラクター作成</button>
+        </div>
+      </div>
+      <script src="js/charaSheet.js"></script>
+      <!--
+      ページリスト2
+      -->
+    </div>
+
+    <!-- footer -->
+    <div id="footer" class="container pad20"></div>
+    <!-- footer -->
+
+    <!--<script src="bootstrap-material-design/dist/js/material.js"></script>
+    <script src="bootstrap-material-design/dist/js/ripples.min.js"></script>
+    <script>$.material.init(); </script>
+    -->
+  </body>
+</html>

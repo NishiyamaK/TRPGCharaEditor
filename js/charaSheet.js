@@ -1,4 +1,31 @@
 /*CharacterEditorに関係するscript*/
+/*********************
+        共通
+*********************/
+if (typeof localStorage == 'undefined') {
+  console.error("お使いのブラウザではWeb Storageが使えません");
+} else {
+  var strage = localStorage;
+
+  function setToLocalStrage(key, val){
+    /*localStrageに保存する*/
+    strage.setItem(key, JSON.stringify(val));
+    console.log("保存しました");
+  }
+  function getFromLocalStrage(key){
+    /*localStrageからkeyのvalueを取得する*/
+    return JSON.parse(strage.getItem(key));
+  }
+  function removeFromLocalStrage(key){
+    /*localStrageからkeyを削除する*/
+    strage.removeItem(key);
+    console.log("key:", key, "を削除しました.");
+  }
+}
+
+/*localStrage関連*/
+// 初期化
+//removeFromLocalStrage("character");
 
 /*********************
         Step1
@@ -194,12 +221,12 @@ $(function(){
     //初期値, ジョブP, 趣味P, 合計値にそれぞれ class=skillInit, skillJobP, skillHobP, skillSumP
     $('#table4 tbody').append(
       `<tr style="background-color:${skillList[i][2]}">` +
-        `<td>${i}</td>` + //スキル番号
-        `<td>${skillList[i][0]}</td>` + //スキル名
-        `<td><input type="text" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]}\" readonly="readonly"></td>` +  // 初期値
-        `<td class="job_col"><input type="number" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //ジョブP
-        `<td class="hob_col"><input type="number" placeholder="0" value="" style=\"background-color:${skillList[i][2]};\"></td>` + //趣味P
-        `<td><input type="number" value="${skillList[i][1]}" style=\"background-color:${skillList[i][2]};\" readonly="readonly"></td>` + // 合計
+        `<td>${i}</td>` +
+        `<td>${skillList[i][0]}</td>` +
+        `<td><input type="text" value="${skillList[i][1]}" style="background-color:${skillList[i][2]}" readonly="readonly"></td>` +
+        `<td class="job_col"><input type="number" placeholder="0" value="" style="background-color:${skillList[i][2]};"></td>` +
+        `<td class="hob_col"><input type="number" placeholder="0" value="" style="background-color:${skillList[i][2]};"></td>` +
+        `<td><input type="number" value="${skillList[i][1]}" style="background-color:${skillList[i][2]};" readonly="readonly"></td>` +
       `</tr>`
     );
   };
@@ -265,3 +292,62 @@ function checkInputPoint(p, p_now, capa, capa_now){
   // スキルの最大値は99
   return p;
 };
+
+/*
+最終Step
+*/
+$(function(){
+  /*
+  キャラ作成ボタンでローカルストレージにキャラの情報を保存する.
+  */
+  $('#make_chara_btn').click(function() {
+    // 新規保存キャラの保存先
+    var new_chara_dic = {base:new Array(), skill:new Array(), info:new Array()};
+    var skill_data, name, chara_dic;
+    /*
+      new_chara_dic = {
+        base:[str,con,pow,dex,app,siz,int,edu,san,lack,idea,knlg,hp,mp,hp,jbp,db],
+        skill:[[skill名,合計値,rgb],[...,...],...],
+        info:[名前,職業,年齢,性別]
+      }
+    */
+
+    // 基礎能力を取得
+    $('#table1 tr').each(function(){
+      $(this).children('td:nth-child(2)').children('input').each(function(){
+        new_chara_dic["base"].push($(this).val());
+      });
+    });
+    $('#table2 tr').each(function(){
+      $(this).children('td:nth-child(2)').children('input').each(function(){
+        new_chara_dic["base"].push($(this).val());
+      });
+    });
+    // スキル能力の合計値を取得
+    $('#table4 tr').each(function(){
+      skill_data = new Array();
+      skill_data[0] = $(this).children('td:nth-child(2)').text();
+      skill_data[1] = $(this).children('td:last').children('input').val();
+      skill_data[2] = $(this).css('background-color');
+      new_chara_dic["skill"].push(skill_data);
+    });
+    new_chara_dic["skill"] = new_chara_dic["skill"].slice(1);
+    // その他情報を取得
+    $('#table5 tr').each(function(){
+      $(this).children('td:last').children('input').each(function(){
+        new_chara_dic["info"].push($(this).val());
+      });
+    });
+
+    // 既に作成されているcharacterのリストを取得
+    chara_dic = getFromLocalStrage("character");
+    if(chara_dic == null){chara_dic = new Object();}
+    // 新規キャラの名前を取得し、辞書に追加
+    name = new_chara_dic["info"][0];
+    chara_dic[name] = new_chara_dic;
+    console.log(new_chara_dic);
+    // リストに作成したキャラクターを追加
+    setToLocalStrage("character", chara_dic);
+    console.log(getFromLocalStrage("character"));
+  });
+});
